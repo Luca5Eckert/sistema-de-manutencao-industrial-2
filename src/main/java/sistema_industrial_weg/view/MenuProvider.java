@@ -18,7 +18,7 @@ public class MenuProvider {
             menu = menu.getNextMenu();
 
         } catch (RuntimeException e) {
-            System.out.println(e);
+            System.out.println("| " + e.getMessage());
         }
 
     }

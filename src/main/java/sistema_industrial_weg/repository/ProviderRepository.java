@@ -1,0 +1,21 @@
+package sistema_industrial_weg.repository;
+
+import sistema_industrial_weg.infra.dao.ProviderDao;
+import sistema_industrial_weg.model.provider.Provider;
+
+public class ProviderRepository {
+
+    private final ProviderDao providerDao;
+
+    public ProviderRepository(ProviderDao providerDao) {
+        this.providerDao = providerDao;
+    }
+
+    public void save(Provider provider) {
+        providerDao.save(provider);
+    }
+
+    public boolean existByCnpj(String cnpj) {
+        return providerDao.existByCnpj(cnpj);
+    }
+}
