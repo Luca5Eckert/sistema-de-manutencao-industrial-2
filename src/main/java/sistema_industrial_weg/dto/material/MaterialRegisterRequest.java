@@ -9,7 +9,7 @@ public record MaterialRegisterRequest(String name, String unit, double initialQu
 
         if(Objects.isNull(unit) || unit.isBlank()) throw new RuntimeException("Unidade de fornecedor não pode ficar em branco");
 
-        if(initialQuantity() < 0 ) throw new RuntimeException("Quantidade inicial não pode ficar em branco ou ser negativa");
+        if(initialQuantity < 0 ) throw new RuntimeException("Quantidade inicial não pode ficar em branco ou ser negativa");
     }
 
 
