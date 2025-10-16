@@ -4,18 +4,18 @@ public class Provider {
 
     private final long id;
 
-    private String nome;
+    private String name;
     private String cnpj;
 
-    public Provider(String nome, String cnpj) {
+    public Provider(String name, String cnpj) {
         this.id = -1;
-        this.nome = nome;
+        this.name = name;
         this.cnpj = cnpj;
     }
 
-    public Provider(long id, String nome, String cnpj) {
+    public Provider(long id, String name, String cnpj) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.cnpj = cnpj;
     }
 
@@ -23,12 +23,12 @@ public class Provider {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String name) {
+        this.name = name;
     }
 
     public String getCnpj() {

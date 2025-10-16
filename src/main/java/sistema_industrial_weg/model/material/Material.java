@@ -4,49 +4,49 @@ public class Material {
 
     private final long id;
 
-    private String nome;
-    private String unidade;
-    private double estoque;
+    private String name;
+    private String unit;
+    private double stock;
 
-    public Material(double estoque, String unidade, String nome) {
+    public Material(double stock, String unit, String name) {
         this.id = -1;
-        this.estoque = estoque;
-        this.unidade = unidade;
-        this.nome = nome;
+        this.stock = stock;
+        this.unit = unit;
+        this.name = name;
     }
 
-    public Material(long id, String nome, String unidade, double estoque) {
+    public Material(long id, String name, String unit, double stock) {
         this.id = id;
-        this.nome = nome;
-        this.unidade = unidade;
-        this.estoque = estoque;
+        this.name = name;
+        this.unit = unit;
+        this.stock = stock;
     }
 
     public long getId() {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUnidade() {
-        return unidade;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setUnidade(String unidade) {
-        this.unidade = unidade;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
-    public double getEstoque() {
-        return estoque;
+    public double getStock() {
+        return stock;
     }
 
-    public void setEstoque(double estoque) {
-        this.estoque = estoque;
+    public void setStock(double stock) {
+        this.stock = stock;
     }
 }

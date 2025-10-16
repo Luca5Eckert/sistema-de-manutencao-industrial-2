@@ -21,7 +21,7 @@ public class ProviderDao {
         try (Connection connection = ConnectionDatabase.toInstance();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, provider.getNome());
+            statement.setString(1, provider.getName());
             statement.setString(2, provider.getCnpj());
 
             statement.executeUpdate();
