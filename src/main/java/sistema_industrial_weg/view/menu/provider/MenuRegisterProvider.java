@@ -32,7 +32,7 @@ public class MenuRegisterProvider extends Menu {
 
         providerService.register(request);
 
-        getPrinter().printText(" Fornecedor adicionado com sucesso");
+        getPrinter().printText("| Fornecedor adicionado com sucesso");
 
         setNextMenu(Menus.toInstanceMainMenu(getReader(), getPrinter()));
     }

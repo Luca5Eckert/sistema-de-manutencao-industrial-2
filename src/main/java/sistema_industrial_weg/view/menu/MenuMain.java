@@ -14,6 +14,7 @@ public class MenuMain extends Menu{
 
         Menu menu = switch (entry.toUpperCase().trim()){
             case "1" -> Menus.toInstanceRegisterProviderMenu(getReader(), getPrinter());
+            case "2" -> Menus.toInstanceRegisterMaterialMenu(getReader(), getPrinter());
             case "0" -> endSystem();
             default -> this;
         };
@@ -34,6 +35,7 @@ public class MenuMain extends Menu{
 
         getPrinter().printText(" Bem-vindo ao menu principal: ");
         getPrinter().printText(" 1 - Cadastrar Fornecedor");
+        getPrinter().printText(" 2 - Cadastrar Material");
         getPrinter().printText(" 0 - Sair");
 
         return getReader().readLine();
