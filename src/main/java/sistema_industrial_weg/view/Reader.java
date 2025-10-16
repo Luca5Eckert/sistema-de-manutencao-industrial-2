@@ -23,4 +23,15 @@ public class Reader {
     }
 
 
+    public double readDouble() {
+
+        try {
+            var num = scanner.nextDouble();
+            scanner.nextLine();
+            return num;
+        } catch (RuntimeException e) {
+            throw new IllegalInputException("número");
+        }
+
+    }
 }

@@ -8,11 +8,11 @@ public class Material {
     private String unit;
     private double stock;
 
-    public Material(double stock, String unit, String name) {
+    public Material(String name, String unit, double stock) {
         this.id = -1;
-        this.stock = stock;
-        this.unit = unit;
         this.name = name;
+        this.unit = unit;
+        this.stock = stock;
     }
 
     public Material(long id, String name, String unit, double stock) {
