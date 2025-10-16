@@ -1,0 +1,26 @@
+package sistema_industrial_weg.view;
+
+import sistema_industrial_weg.exception.IllegalInputException;
+
+import java.util.Scanner;
+
+public class Reader {
+
+    private final Scanner scanner;
+
+    public Reader() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    public String readLine() {
+
+        try {
+            return scanner.nextLine();
+        } catch (RuntimeException e) {
+            throw new IllegalInputException("texto");
+        }
+
+    }
+
+
+}
