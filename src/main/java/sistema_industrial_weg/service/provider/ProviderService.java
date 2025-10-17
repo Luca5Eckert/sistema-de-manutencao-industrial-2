@@ -11,9 +11,11 @@ import java.util.Objects;
 public class ProviderService {
 
     private final ProviderRepository providerRepository;
+    private final ProviderMapper providerMapper;
 
-    public ProviderService(ProviderRepository providerRepository) {
+    public ProviderService(ProviderRepository providerRepository, ProviderMapper providerMapper) {
         this.providerRepository = providerRepository;
+        this.providerMapper = providerMapper;
     }
 
     public void register(ProviderRegisterRequest request) {
@@ -26,6 +28,6 @@ public class ProviderService {
     }
 
     public List<ProviderGetResponse> getAll() {
-        return providerRepository.getAll();
+        return providerRepository.getAll().stream().map(providerMapper::toGetResponse).toList();
     }
 }

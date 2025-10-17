@@ -26,7 +26,7 @@ public class ProviderRepository {
         return providerDao.existById(id);
     }
 
-    public List<ProviderGetResponse> getAll() {
+    public List<Provider> getAll() {
         return providerDao.getAll();
     }
 }

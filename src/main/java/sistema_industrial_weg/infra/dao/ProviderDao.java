@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProviderDao {
@@ -84,6 +85,34 @@ public class ProviderDao {
 
     }
 
-    public List<ProviderGetResponse> getAll() {
+    public List<Provider> getAll() {
+        List<Provider> providers = new ArrayList<>();
+        String query = """
+                SELECT
+                id, nome, cnpj
+                FROM
+                fornecedor
+                """;
+
+        try(Connection connection = ConnectionDatabase.toInstance();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery()
+        ){
+
+            while(resultSet.next()){
+                long id = resultSet.getLong("id");
+                String name = resultSet.getString("nome");
+                String cnpj = resultSet.getString("cnpj");
+
+                Provider provider = new Provider(id, name, cnpj);
+                providers.add(provider);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro na conexão do banco de dados: " + e.getMessage());
+        }
+
+        return providers;
     }
 }
