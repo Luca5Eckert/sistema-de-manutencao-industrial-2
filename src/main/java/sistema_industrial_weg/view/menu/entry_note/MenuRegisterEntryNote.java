@@ -3,8 +3,6 @@ package sistema_industrial_weg.view.menu.entry_note;
 import sistema_industrial_weg.dto.entry_note.EntryNoteRegisterRequest;
 import sistema_industrial_weg.dto.entry_note_item.ItemEntryNoteRequest;
 import sistema_industrial_weg.dto.material.MaterialGetResponse;
-import sistema_industrial_weg.dto.material.MaterialRegisterRequest;
-import sistema_industrial_weg.dto.provider.ProviderGetResponse;
 import sistema_industrial_weg.infra.beans.EntryNoteBeans;
 import sistema_industrial_weg.infra.beans.MaterialBeans;
 import sistema_industrial_weg.infra.beans.ProviderBeans;
@@ -14,18 +12,17 @@ import sistema_industrial_weg.service.provider.ProviderService;
 import sistema_industrial_weg.view.Printer;
 import sistema_industrial_weg.view.Reader;
 import sistema_industrial_weg.view.menu.Menu;
-import sistema_industrial_weg.view.menu.Menus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuEntryNoteRegister extends Menu {
+public class MenuRegisterEntryNote extends Menu {
 
     private final EntryNoteService entryNoteService;
     private final ProviderService providerService;
     private final MaterialService materialService;
 
-    protected MenuEntryNoteRegister(Reader reader, Printer printer, EntryNoteService entryNoteService, ProviderService providerService, MaterialService materialService) {
+    protected MenuRegisterEntryNote(Reader reader, Printer printer, EntryNoteService entryNoteService, ProviderService providerService, MaterialService materialService) {
         super(reader, printer);
         this.entryNoteService = entryNoteService;
         this.providerService = providerService;
@@ -48,7 +45,7 @@ public class MenuEntryNoteRegister extends Menu {
 
         getPrinter().printText("Digite as informações do nota de entrada: ( 0 para cancelar )");
 
-        getPrinter().printPhrase("Fornecedor: ");
+        getPrinter().printText("Fornecedor: ");
         var provider = getProvider();
 
         var materiais = getMaterias();
@@ -98,9 +95,9 @@ public class MenuEntryNoteRegister extends Menu {
 
         int select = getReader().readInteger() - 1;
 
-        if(!isValidSelect(associativesMaterias, select)) throw new RuntimeException("| Opção sem correspondencia");
-
         if(select == -1) return;
+
+        if(!isValidSelect(associativesMaterias, select)) throw new RuntimeException("| Opção sem correspondencia");
 
         associativesMaterias.remove(select);
 
@@ -123,10 +120,10 @@ public class MenuEntryNoteRegister extends Menu {
     }
 
     private boolean isValidSelect(List<?> itens, int select) {
-        return select < 0 || select >= itens.size();
+        return select >= 0 && select < itens.size();
     }
 
     public static Menu toInstance(Reader reader, Printer printer) {
-        return new MenuEntryNoteRegister(reader, printer, EntryNoteBeans.toInstanceService(), ProviderBeans.toInstanceService(), MaterialBeans.toInstanceService());
+        return new MenuRegisterEntryNote(reader, printer, EntryNoteBeans.toInstanceService(), ProviderBeans.toInstanceService(), MaterialBeans.toInstanceService());
     }
 }

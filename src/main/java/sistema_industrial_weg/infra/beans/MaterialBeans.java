@@ -14,4 +14,7 @@ public class MaterialBeans {
         return MATERIAL_SERVICE;
     }
 
+    public static MaterialRepository toInstanceRepository() {
+        return MATERIAL_REPOSITORY;
+    }
 }

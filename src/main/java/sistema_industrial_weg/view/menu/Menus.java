@@ -2,6 +2,7 @@ package sistema_industrial_weg.view.menu;
 
 import sistema_industrial_weg.view.Printer;
 import sistema_industrial_weg.view.Reader;
+import sistema_industrial_weg.view.menu.entry_note.MenuRegisterEntryNote;
 import sistema_industrial_weg.view.menu.material.MenuRegisterMaterial;
 import sistema_industrial_weg.view.menu.provider.MenuRegisterProvider;
 
@@ -21,5 +22,9 @@ public class Menus {
 
     public static Menu toInstanceEndMenu(Reader reader, Printer printer) {
         return MenuFinal.toInstance(reader, printer);
+    }
+
+    public static Menu toInstanceRegisterEntryNote(Reader reader, Printer printer) {
+        return MenuRegisterEntryNote.toInstance(reader, printer);
     }
 }
