@@ -1,7 +1,10 @@
 package sistema_industrial_weg.repository;
 
+import sistema_industrial_weg.dto.provider.ProviderGetResponse;
 import sistema_industrial_weg.infra.dao.ProviderDao;
 import sistema_industrial_weg.model.provider.Provider;
+
+import java.util.List;
 
 public class ProviderRepository {
 
@@ -21,5 +24,9 @@ public class ProviderRepository {
 
     public boolean existById(long id) {
         return providerDao.existById(id);
+    }
+
+    public List<ProviderGetResponse> getAll() {
+        return providerDao.getAll();
     }
 }

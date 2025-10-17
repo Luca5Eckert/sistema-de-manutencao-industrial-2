@@ -1,5 +1,6 @@
 package sistema_industrial_weg.infra.dao;
 
+import sistema_industrial_weg.dto.provider.ProviderGetResponse;
 import sistema_industrial_weg.infra.connection.ConnectionDatabase;
 import sistema_industrial_weg.model.provider.Provider;
 
@@ -7,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ProviderDao {
 
@@ -80,5 +82,8 @@ public class ProviderDao {
             throw new RuntimeException("Erro na conexão do banco de dados: " + e.getMessage());
         }
 
+    }
+
+    public List<ProviderGetResponse> getAll() {
     }
 }

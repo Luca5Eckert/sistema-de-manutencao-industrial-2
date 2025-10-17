@@ -26,6 +26,6 @@ public class ProviderService {
     }
 
     public List<ProviderGetResponse> getAll() {
-        return null;
+        return providerRepository.getAll();
     }
 }
