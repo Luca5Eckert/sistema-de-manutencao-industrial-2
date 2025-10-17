@@ -34,4 +34,16 @@ public class Reader {
         }
 
     }
+
+    public int readInteger() {
+
+        try {
+            var num = scanner.nextInt();
+            scanner.nextLine();
+            return num;
+        } catch (RuntimeException e) {
+            throw new IllegalInputException("número");
+        }
+
+    }
 }

@@ -57,4 +57,28 @@ public class ProviderDao {
 
     }
 
+    public boolean existById(long id) {
+        String query = """
+                SELECT 0
+                FROM fornecedor
+                WHERE id = ?
+                """;
+
+        try (Connection connection = ConnectionDatabase.toInstance();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setLong(1, id);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                return resultSet.next();
+
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro na conexão do banco de dados: " + e.getMessage());
+        }
+
+    }
 }

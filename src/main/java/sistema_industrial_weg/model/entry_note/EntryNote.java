@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class EntryNote {
 
-    private final long id;
+    private long id;
 
     private final long providerId;
     private final LocalDate entryDate;
@@ -23,6 +23,10 @@ public class EntryNote {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getProviderId() {

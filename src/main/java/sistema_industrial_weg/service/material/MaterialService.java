@@ -1,8 +1,11 @@
 package sistema_industrial_weg.service.material;
 
+import sistema_industrial_weg.dto.material.MaterialGetResponse;
 import sistema_industrial_weg.dto.material.MaterialRegisterRequest;
 import sistema_industrial_weg.model.material.Material;
 import sistema_industrial_weg.repository.MaterialRepository;
+
+import java.util.List;
 
 public class MaterialService {
 
@@ -25,4 +28,7 @@ public class MaterialService {
         materialRepository.save(material);
     }
 
+    public List<MaterialGetResponse> getAll() {
+        return null;
+    }
 }

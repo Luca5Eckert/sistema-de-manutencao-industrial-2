@@ -1,8 +1,7 @@
 package sistema_industrial_weg.view;
 
-import java.util.Objects;
-
-import static java.util.Objects.isNull;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Printer {
     private final static int SPACE = 80;
@@ -28,5 +27,19 @@ public class Printer {
 
     public void printPhrase(String s) {
         System.out.print(s);
+    }
+
+    public void printList(List<?> providers) {
+        AtomicInteger count = new AtomicInteger(1);
+
+        if(providers.isEmpty()){
+            System.out.println("| List Vazia");
+            return;
+        }
+
+        providers.forEach(i -> {
+            System.out.println((count.getAndIncrement()) + " - " + i);
+        });
+
     }
 }

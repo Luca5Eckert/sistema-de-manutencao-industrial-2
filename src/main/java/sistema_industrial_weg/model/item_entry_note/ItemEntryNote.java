@@ -8,8 +8,9 @@ public class ItemEntryNote {
 
     private double quantity;
 
-    public ItemEntryNote(ItemEntryNoteId itemEntryNoteId) {
+    public ItemEntryNote(ItemEntryNoteId itemEntryNoteId, double quantity) {
         this.itemEntryNoteId = itemEntryNoteId;
+        this.quantity = quantity;
     }
 
     public ItemEntryNoteId getItemEntryNoteId() {

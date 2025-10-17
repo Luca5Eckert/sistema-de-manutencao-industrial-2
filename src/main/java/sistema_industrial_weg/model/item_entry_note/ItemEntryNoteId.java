@@ -5,6 +5,11 @@ public class ItemEntryNoteId {
     private final long entryNoteId;
     private final long materialId;
 
+    public ItemEntryNoteId(long materialId) {
+        this.entryNoteId = -1;
+        this.materialId = materialId;
+    }
+
     public ItemEntryNoteId(long entryNoteId, long materialId) {
         this.entryNoteId = entryNoteId;
         this.materialId = materialId;

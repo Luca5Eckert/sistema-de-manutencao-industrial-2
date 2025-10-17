@@ -1,9 +1,11 @@
 package sistema_industrial_weg.service.provider;
 
+import sistema_industrial_weg.dto.provider.ProviderGetResponse;
 import sistema_industrial_weg.dto.provider.ProviderRegisterRequest;
 import sistema_industrial_weg.model.provider.Provider;
 import sistema_industrial_weg.repository.ProviderRepository;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ProviderService {
@@ -21,5 +23,9 @@ public class ProviderService {
 
         Provider provider = new Provider(request.name(), request.cnpj());
         providerRepository.save(provider);
+    }
+
+    public List<ProviderGetResponse> getAll() {
+        return null;
     }
 }

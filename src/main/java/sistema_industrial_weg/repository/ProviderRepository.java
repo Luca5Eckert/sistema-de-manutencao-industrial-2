@@ -18,4 +18,8 @@ public class ProviderRepository {
     public boolean existByCnpj(String cnpj) {
         return providerDao.existByCnpj(cnpj);
     }
+
+    public boolean existById(long id) {
+        return providerDao.existById(id);
+    }
 }

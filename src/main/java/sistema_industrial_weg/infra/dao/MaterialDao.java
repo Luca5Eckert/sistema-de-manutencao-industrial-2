@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MaterialDao {
 
@@ -56,4 +58,47 @@ public class MaterialDao {
         }
 
     }
+
+    public List<Material> getMaterials(List<Long> materialsId) {
+        List<Material> materials = new ArrayList<>();
+
+        StringBuilder queryBuilder = new StringBuilder("""
+                SELECT id, nome, unidade, estoque
+                WHERE id IN (
+                """);
+        queryBuilder.append("?, ".repeat(Math.max(0, materialsId.size() - 1)));
+        queryBuilder.append(" ?");
+
+        String query = queryBuilder + " )";
+
+        try(Connection connection = ConnectionDatabase.toInstance();
+            PreparedStatement statement = connection.prepareStatement(query)){
+
+            for(int i = 0; i < materialsId.size(); i++){
+                statement.setLong(i, materialsId.get(i));
+            }
+
+            try(ResultSet resultSet = statement.executeQuery()){
+
+                while(resultSet.next()){
+                    long id = resultSet.getLong("id");
+                    String nome = resultSet.getString("nome");
+                    String unidade = resultSet.getString("unidade");
+                    double estoque = resultSet.getDouble("estoque");
+
+                    var material = new Material(id, nome, unidade, estoque);
+                    materials.add(material);
+                }
+
+            }
+
+        } catch (SQLException e){
+            throw new RuntimeException("Erro na conexão do banco de dados: " + e.getMessage());
+        }
+
+        return materials;
+
+    }
+
+
 }
