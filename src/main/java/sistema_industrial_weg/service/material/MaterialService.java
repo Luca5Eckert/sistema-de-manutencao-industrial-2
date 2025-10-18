@@ -6,13 +6,16 @@ import sistema_industrial_weg.model.material.Material;
 import sistema_industrial_weg.repository.MaterialRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MaterialService {
 
     private final MaterialRepository materialRepository;
+    private final MaterialMapper materialMapper;
 
-    public MaterialService(MaterialRepository materialRepository) {
+    public MaterialService(MaterialRepository materialRepository, MaterialMapper materialMapper) {
         this.materialRepository = materialRepository;
+        this.materialMapper = materialMapper;
     }
 
 
@@ -29,6 +32,9 @@ public class MaterialService {
     }
 
     public List<MaterialGetResponse> getAll() {
-        return null;
+        return materialRepository.getAll()
+                .stream()
+                .map(materialMapper::toGetResponse)
+                .collect(Collectors.toList());
     }
 }

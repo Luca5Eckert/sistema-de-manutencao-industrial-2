@@ -1,5 +1,6 @@
 package sistema_industrial_weg.infra.dao;
 
+import sistema_industrial_weg.dto.material.MaterialGetResponse;
 import sistema_industrial_weg.infra.connection.ConnectionDatabase;
 import sistema_industrial_weg.model.material.Material;
 
@@ -20,8 +21,8 @@ public class MaterialDao {
                 (?, ?, ?)
                 """;
 
-        try(Connection connection = ConnectionDatabase.toInstance();
-            PreparedStatement statement = connection.prepareStatement(query)){
+        try (Connection connection = ConnectionDatabase.toInstance();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, material.getName());
             statement.setString(2, material.getUnit());
@@ -29,7 +30,7 @@ public class MaterialDao {
 
             statement.executeUpdate();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Erro na conexão do banco de dados: " + e.getMessage());
         }
 
@@ -42,18 +43,18 @@ public class MaterialDao {
                 WHERE nome = ?
                 """;
 
-        try(Connection connection = ConnectionDatabase.toInstance();
-            PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = ConnectionDatabase.toInstance();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, name);
 
-            try(ResultSet resultSet = statement.executeQuery()){
+            try (ResultSet resultSet = statement.executeQuery()) {
 
                 return resultSet.next();
 
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Erro na conexão do banco de dados: " + e.getMessage());
         }
 
@@ -64,23 +65,23 @@ public class MaterialDao {
 
         StringBuilder queryBuilder = new StringBuilder("""
                 SELECT id, nome, unidade, estoque
-                WHERE id IN (
-                """);
+                FROM material
+                WHERE id IN (""");
         queryBuilder.append("?, ".repeat(Math.max(0, materialsId.size() - 1)));
         queryBuilder.append(" ?");
 
         String query = queryBuilder + " )";
 
-        try(Connection connection = ConnectionDatabase.toInstance();
-            PreparedStatement statement = connection.prepareStatement(query)){
+        try (Connection connection = ConnectionDatabase.toInstance();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
-            for(int i = 0; i < materialsId.size(); i++){
-                statement.setLong(i, materialsId.get(i));
+            for (int i = 1; i <= materialsId.size(); i++) {
+                statement.setLong(i, materialsId.get(i-1));
             }
 
-            try(ResultSet resultSet = statement.executeQuery()){
+            try (ResultSet resultSet = statement.executeQuery()) {
 
-                while(resultSet.next()){
+                while (resultSet.next()) {
                     long id = resultSet.getLong("id");
                     String nome = resultSet.getString("nome");
                     String unidade = resultSet.getString("unidade");
@@ -92,7 +93,7 @@ public class MaterialDao {
 
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Erro na conexão do banco de dados: " + e.getMessage());
         }
 
@@ -101,4 +102,33 @@ public class MaterialDao {
     }
 
 
+    public List<Material> getAll() {
+
+        List<Material> materials = new ArrayList<>();
+        String query = """
+                SELECT id, nome, unidade, estoque
+                FROM material
+                """;
+
+        try (Connection connection = ConnectionDatabase.toInstance();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String nome = resultSet.getString("nome");
+                String unidade = resultSet.getString("unidade");
+                double estoque = resultSet.getDouble("estoque");
+
+                var material = new Material(id, nome, unidade, estoque);
+                materials.add(material);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro na conexão do banco de dados: " + e.getMessage());
+        }
+
+        return materials;
+    }
 }

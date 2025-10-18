@@ -66,8 +66,8 @@ public class MenuRegisterEntryNote extends Menu {
     }
 
     private List<ItemEntryNoteRequest> getMaterias() {
-        var materias = materialService.getAll();
-        var associativesMaterias = new ArrayList<ItemEntryNoteRequest>();
+        List<MaterialGetResponse> materials = materialService.getAll();
+        List<ItemEntryNoteRequest> associativesMaterias = new ArrayList<>();
 
         while(true) {
             getPrinter().printText(" Material: ");
@@ -78,8 +78,8 @@ public class MenuRegisterEntryNote extends Menu {
             var text = getReader().readLine();
 
             switch(text.toUpperCase().trim()){
-                case "1" -> addMaterial(materias, associativesMaterias);
-                case "2" -> seeMaterial(associativesMaterias);
+                case "1" -> addMaterial(materials, associativesMaterias);
+                case "2" -> seeMaterial(associativesMaterias, materials);
                 case "3" -> {
                     return associativesMaterias;
                 }
@@ -88,7 +88,7 @@ public class MenuRegisterEntryNote extends Menu {
 
     }
 
-    private void seeMaterial(ArrayList<ItemEntryNoteRequest> associativesMaterias) {
+    private void seeMaterial(List<ItemEntryNoteRequest> associativesMaterias, List<MaterialGetResponse> materials) {
         System.out.println("Selecione um material para remover: ( 0 para continuar ) ");
 
         getPrinter().printList(associativesMaterias);
@@ -99,11 +99,15 @@ public class MenuRegisterEntryNote extends Menu {
 
         if(!isValidSelect(associativesMaterias, select)) throw new RuntimeException("| Opção sem correspondencia");
 
+        var material = associativesMaterias.get(select);
+
+        materials.add(new MaterialGetResponse(material.idMaterial(), material.name(), material.unit(), material.quantity()));
+
         associativesMaterias.remove(select);
 
     }
 
-    private void addMaterial(List<MaterialGetResponse> materias, ArrayList<ItemEntryNoteRequest> associativesMaterias) {
+    private void addMaterial(List<MaterialGetResponse> materias, List<ItemEntryNoteRequest> associativesMaterias) {
         getPrinter().printText(" Selecione um material: ");
 
         getPrinter().printList(materias);
@@ -115,7 +119,7 @@ public class MenuRegisterEntryNote extends Menu {
         getPrinter().printText("Quantidade necessaria: ");
         double quantity = getReader().readDouble();
 
-        associativesMaterias.add(new ItemEntryNoteRequest(materias.get(select).id(), quantity));
+        associativesMaterias.add(new ItemEntryNoteRequest(materias.get(select).id(), materias.get(select).name(), quantity, materias.get(select).unit()));
         materias.remove(select);
     }
 
