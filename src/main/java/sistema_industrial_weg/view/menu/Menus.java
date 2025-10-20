@@ -5,6 +5,7 @@ import sistema_industrial_weg.view.Reader;
 import sistema_industrial_weg.view.menu.entry_note.MenuRegisterEntryNote;
 import sistema_industrial_weg.view.menu.material.MenuRegisterMaterial;
 import sistema_industrial_weg.view.menu.provider.MenuRegisterProvider;
+import sistema_industrial_weg.view.menu.request.MenuCreateRequest;
 
 public class Menus {
 
@@ -27,4 +28,9 @@ public class Menus {
     public static Menu toInstanceRegisterEntryNote(Reader reader, Printer printer) {
         return MenuRegisterEntryNote.toInstance(reader, printer);
     }
+
+    public static Menu toInstanceCreateRequest(Reader reader, Printer printer) {
+        return MenuCreateRequest.toInstance(reader, printer);
+    }
+
 }

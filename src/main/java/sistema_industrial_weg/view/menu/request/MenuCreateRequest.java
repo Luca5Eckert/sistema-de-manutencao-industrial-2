@@ -1,14 +1,12 @@
-package sistema_industrial_weg.view.menu.entry_note;
+package sistema_industrial_weg.view.menu.request;
 
-import sistema_industrial_weg.dto.entry_note.EntryNoteRegisterRequest;
-import sistema_industrial_weg.dto.entry_note_item.ItemEntryNoteRequest;
 import sistema_industrial_weg.dto.material.MaterialGetResponse;
-import sistema_industrial_weg.infra.beans.EntryNoteBeans;
+import sistema_industrial_weg.dto.request.create.RequestCreateRequest;
+import sistema_industrial_weg.dto.request.create.RequestMaterialRequest;
 import sistema_industrial_weg.infra.beans.MaterialBeans;
-import sistema_industrial_weg.infra.beans.ProviderBeans;
-import sistema_industrial_weg.service.entry_note.EntryNoteService;
+import sistema_industrial_weg.infra.beans.RequestBeans;
 import sistema_industrial_weg.service.material.MaterialService;
-import sistema_industrial_weg.service.provider.ProviderService;
+import sistema_industrial_weg.service.request.RequestService;
 import sistema_industrial_weg.view.Printer;
 import sistema_industrial_weg.view.Reader;
 import sistema_industrial_weg.view.menu.Menu;
@@ -17,74 +15,66 @@ import sistema_industrial_weg.view.menu.Menus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuRegisterEntryNote extends Menu {
+public class MenuCreateRequest extends Menu {
 
-    private final EntryNoteService entryNoteService;
-    private final ProviderService providerService;
+    private final RequestService requestService;
     private final MaterialService materialService;
 
-    protected MenuRegisterEntryNote(Reader reader, Printer printer, EntryNoteService entryNoteService, ProviderService providerService, MaterialService materialService) {
+    protected MenuCreateRequest(Reader reader, Printer printer, RequestService requestService, MaterialService materialService) {
         super(reader, printer);
-        this.entryNoteService = entryNoteService;
-        this.providerService = providerService;
+        this.requestService = requestService;
         this.materialService = materialService;
     }
 
-
     @Override
     public void execute() {
-        var request = callMenu();
 
-        if(request == null) {
-            getPrinter().printText("|| Voltando");
+        RequestCreateRequest request = callMenu();
+
+        if(request == null){
             setNextMenu(Menus.toInstanceMainMenu(getReader(), getPrinter()));
+            getPrinter().printText("| Voltando ");
             return;
         }
 
-        entryNoteService.register(request);
+        requestService.create(request);
 
-        getPrinter().printText("| Material adicionado com sucesso");
+        getPrinter().printText("| |  Adicionado com sucesso");
+
+        setNextMenu(Menus.toInstanceMainMenu(getReader(), getPrinter()));
 
     }
 
-    private EntryNoteRegisterRequest callMenu() {
-        getPrinter().printTitle("Cadastrar nota de entrada");
+    public RequestCreateRequest callMenu(){
+        getPrinter().printTitle("Criar Requisição");
 
-        getPrinter().printText("Digite as informações do nota de entrada: ( 0 para cancelar )");
+        getPrinter().printText(" Digite os dados para criar um requisição: ( 0 para cancelar )");
 
-        getPrinter().printText("Fornecedor: ");
-        var provider = getProvider();
+        getPrinter().printPhrase(" Digite seu setor: ");
+        String sector = getReader().readLine();
 
-        if(provider == -1 ) return null;
+        if(sector.equals("0")) return null;
 
-        var materiais = getMaterias();
+        List<RequestMaterialRequest> listMaterial = getMaterials();
 
-        return new EntryNoteRegisterRequest(provider, materiais);
+        return new RequestCreateRequest(sector, listMaterial);
+
     }
 
-    private long getProvider() {
-        var providers = providerService.getAll();
-
-        getPrinter().printList(providers);
-
-        int select = getReader().readInteger() - 1;
-
-        if(select == -1 ) return select;
-
-        if(!isValidSelect(providers, select)) throw new RuntimeException("| Opção sem correspondencia");
-
-        return providers.get(select).id();
-    }
-
-    private List<ItemEntryNoteRequest> getMaterias() {
+    private List<RequestMaterialRequest> getMaterials() {
         List<MaterialGetResponse> materials = materialService.getAll();
-        List<ItemEntryNoteRequest> associativesMaterias = new ArrayList<>();
+        List<RequestMaterialRequest> associativesMaterias = new ArrayList<>();
 
         while(true) {
+            getPrinter().printLine();
+
             getPrinter().printText(" Material: ");
             getPrinter().printText(" 1 - Adicionar ");
             getPrinter().printText(" 2 - Visualizar atuais");
             getPrinter().printText(" 3 - Enviar");
+
+            getPrinter().printLine();
+
 
             var text = getReader().readLine();
 
@@ -99,7 +89,7 @@ public class MenuRegisterEntryNote extends Menu {
 
     }
 
-    private void seeMaterial(List<ItemEntryNoteRequest> associativesMaterias, List<MaterialGetResponse> materials) {
+    private void seeMaterial(List<RequestMaterialRequest> associativesMaterias, List<MaterialGetResponse> materials) {
         System.out.println("Selecione um material para remover: ( 0 para continuar ) ");
 
         getPrinter().printList(associativesMaterias);
@@ -118,7 +108,7 @@ public class MenuRegisterEntryNote extends Menu {
 
     }
 
-    private void addMaterial(List<MaterialGetResponse> materias, List<ItemEntryNoteRequest> associativesMaterias) {
+    private void addMaterial(List<MaterialGetResponse> materias, List<RequestMaterialRequest> associativesMaterias) {
         getPrinter().printText(" Selecione um material: ");
 
         getPrinter().printList(materias);
@@ -130,7 +120,7 @@ public class MenuRegisterEntryNote extends Menu {
         getPrinter().printText("Quantidade necessaria: ");
         double quantity = getReader().readDouble();
 
-        associativesMaterias.add(new ItemEntryNoteRequest(materias.get(select).id(), materias.get(select).name(), quantity, materias.get(select).unit()));
+        associativesMaterias.add(new RequestMaterialRequest(materias.get(select).id(), materias.get(select).name(), quantity, materias.get(select).unit()));
         materias.remove(select);
     }
 
@@ -139,6 +129,8 @@ public class MenuRegisterEntryNote extends Menu {
     }
 
     public static Menu toInstance(Reader reader, Printer printer) {
-        return new MenuRegisterEntryNote(reader, printer, EntryNoteBeans.toInstanceService(), ProviderBeans.toInstanceService(), MaterialBeans.toInstanceService());
+        return new MenuCreateRequest(reader, printer, RequestBeans.toInstanceRequest(), MaterialBeans.toInstanceService());
     }
+
+
 }

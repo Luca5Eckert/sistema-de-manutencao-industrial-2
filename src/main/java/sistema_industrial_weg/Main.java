@@ -6,8 +6,6 @@ import sistema_industrial_weg.view.Printer;
 import sistema_industrial_weg.view.Reader;
 import sistema_industrial_weg.view.menu.Menus;
 
-import static java.lang.IO.println;
-
 
 public class Main {
     public static void main(String[] args) {
