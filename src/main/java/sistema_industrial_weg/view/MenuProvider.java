@@ -1,5 +1,6 @@
 package sistema_industrial_weg.view;
 
+import sistema_industrial_weg.infra.exception.GlobalExceptionHandler;
 import sistema_industrial_weg.view.menu.Menu;
 import sistema_industrial_weg.view.menu.MenuFinal;
 
@@ -18,7 +19,8 @@ public class MenuProvider {
             menu = menu.getNextMenu();
 
         } catch (RuntimeException e) {
-            System.out.println("| " + e.getMessage());
+            var error = GlobalExceptionHandler.handler(e);
+            System.out.println(error);
         }
 
     }

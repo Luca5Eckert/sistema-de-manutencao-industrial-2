@@ -2,6 +2,7 @@ package sistema_industrial_weg.service.request;
 
 import sistema_industrial_weg.dto.request.create.RequestCreateRequest;
 import sistema_industrial_weg.dto.request.create.RequestMaterialRequest;
+import sistema_industrial_weg.dto.request.get.RequestGetResponse;
 import sistema_industrial_weg.model.material.Material;
 import sistema_industrial_weg.model.request.Request;
 import sistema_industrial_weg.model.request.enumerator.RequestStatus;
@@ -61,4 +62,13 @@ public class RequestService {
     }
 
 
+    public List<RequestGetResponse> getAllPendent() {
+        return requestRepository.getAllPendent().stream().map(requestMapper::toGetResponse).toList();
+    }
+
+    public void cancelRequest(long id) {
+        if(!requestRepository.existById(id)) throw new RuntimeException("Nenhuma requisição encontrada com id: " + id);
+
+        requestRepository.changeStatus(id, RequestStatus.CANCELADA);
+    }
 }

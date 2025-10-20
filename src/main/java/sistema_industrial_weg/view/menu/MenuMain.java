@@ -17,6 +17,7 @@ public class MenuMain extends Menu{
             case "2" -> Menus.toInstanceRegisterMaterialMenu(getReader(), getPrinter());
             case "3" -> Menus.toInstanceRegisterEntryNote(getReader(), getPrinter());
             case "4" -> Menus.toInstanceCreateRequest(getReader(), getPrinter());
+            case "6" -> Menus.toInstanceCancelRequest(getReader(), getPrinter());
             case "0" -> endSystem();
             default -> this;
         };
@@ -40,6 +41,7 @@ public class MenuMain extends Menu{
         getPrinter().printText(" 2 - Cadastrar Material");
         getPrinter().printText(" 3 - Cadastrar Nota de Entrada");
         getPrinter().printText(" 4 - Cadastrar Requisição");
+        getPrinter().printText(" 6 - Cancelar requisição");
         getPrinter().printText(" 0 - Sair");
 
         return getReader().readLine();
