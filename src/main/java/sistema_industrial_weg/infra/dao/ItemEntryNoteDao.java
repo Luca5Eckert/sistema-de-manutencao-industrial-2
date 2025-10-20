@@ -11,9 +11,12 @@ import java.util.List;
 public class ItemEntryNoteDao {
     public void createAll(List<ItemEntryNote> itensEntryNote, long id) {
         String query = """
-                INSERT INTO idNotaEntrada
+                INSERT INTO notaentradaitem 
+                (
+                idNotaEntrada
                 , idMaterial
                 , quantidade
+                )
                 VALUES
                 (?, ?, ?)
                 """;
