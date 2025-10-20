@@ -17,6 +17,7 @@ public class MenuMain extends Menu{
             case "2" -> Menus.toInstanceRegisterMaterialMenu(getReader(), getPrinter());
             case "3" -> Menus.toInstanceRegisterEntryNote(getReader(), getPrinter());
             case "4" -> Menus.toInstanceCreateRequest(getReader(), getPrinter());
+            case "5" -> Menus.toInstanceExecuteRequest(getReader(), getPrinter());
             case "6" -> Menus.toInstanceCancelRequest(getReader(), getPrinter());
             case "0" -> endSystem();
             default -> this;

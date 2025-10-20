@@ -1,13 +1,18 @@
 package sistema_industrial_weg.infra.dao;
 
 import sistema_industrial_weg.infra.connection.ConnectionDatabase;
+import sistema_industrial_weg.model.item_request.ItemRequest;
+import sistema_industrial_weg.model.item_request.ItemRequestId;
+import sistema_industrial_weg.model.material.Material;
 import sistema_industrial_weg.model.request.Request;
 import sistema_industrial_weg.model.request.enumerator.RequestStatus;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RequestDao {
 
@@ -133,4 +138,57 @@ public class RequestDao {
         }
 
     }
+
+    public Map<ItemRequest, Material> getItemsAndMaterials(long requisitionId) {
+        Map<ItemRequest, Material> map = new HashMap<>();
+
+        String query = """
+                SELECT
+                    ir.idRequisicao,
+                    ir.idMaterial,
+                    ir.quantidade,
+                    m.id AS mid,
+                    m.nome,
+                    m.unidade,
+                    m.estoque
+                FROM
+                    Requisicao r
+                JOIN
+                    RequisicaoItem ir ON ir.idRequisicao = r.id
+                JOIN
+                    Material m ON m.id = ir.idMaterial
+                WHERE
+                    r.id = ?
+                """;
+
+        try (Connection connection = ConnectionDatabase.toInstance();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setLong(1, requisitionId);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    long idReq = rs.getLong("idRequisicao");
+                    long idMat = rs.getLong("idMaterial");
+                    double quantidade = rs.getDouble("quantidade");
+
+                    long matId = rs.getLong("mid");
+                    String nome = rs.getString("nome");
+                    String unidade = rs.getString("unidade");
+                    double estoque = rs.getDouble("estoque");
+
+                    ItemRequest item = new ItemRequest(new ItemRequestId(idReq, idMat), quantidade);
+                    Material material = new Material(matId, nome, unidade, estoque);
+
+                    map.put(item, material);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return map;
+    }
+
 }

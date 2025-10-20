@@ -7,6 +7,7 @@ import sistema_industrial_weg.view.menu.material.MenuRegisterMaterial;
 import sistema_industrial_weg.view.menu.provider.MenuRegisterProvider;
 import sistema_industrial_weg.view.menu.request.MenuCancelRequest;
 import sistema_industrial_weg.view.menu.request.MenuCreateRequest;
+import sistema_industrial_weg.view.menu.request.MenuExecuteRequest;
 
 public class Menus {
 
@@ -36,5 +37,9 @@ public class Menus {
 
     public static Menu toInstanceCancelRequest(Reader reader, Printer printer) {
         return MenuCancelRequest.toInstance(reader, printer);
+    }
+
+    public static Menu toInstanceExecuteRequest(Reader reader, Printer printer) {
+        return MenuExecuteRequest.toInstance(reader, printer);
     }
 }

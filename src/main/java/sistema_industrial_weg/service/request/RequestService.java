@@ -3,6 +3,7 @@ package sistema_industrial_weg.service.request;
 import sistema_industrial_weg.dto.request.create.RequestCreateRequest;
 import sistema_industrial_weg.dto.request.create.RequestMaterialRequest;
 import sistema_industrial_weg.dto.request.get.RequestGetResponse;
+import sistema_industrial_weg.model.item_request.ItemRequest;
 import sistema_industrial_weg.model.material.Material;
 import sistema_industrial_weg.model.request.Request;
 import sistema_industrial_weg.model.request.enumerator.RequestStatus;
@@ -12,6 +13,7 @@ import sistema_industrial_weg.repository.RequestRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class RequestService {
 
@@ -71,4 +73,24 @@ public class RequestService {
 
         requestRepository.changeStatus(id, RequestStatus.CANCELADA);
     }
+
+    public void execute(long id) {
+        var materials = requestRepository.getMaterials(id);
+
+        if(!canExecute(materials)) throw new RuntimeException("Quantidade insuficiente de materias");
+
+        requestRepository.changeStatus(id, RequestStatus.ATENDIDA);
+
+        materialRepository.updateAll(materials);
+    }
+
+    private boolean canExecute(Map<ItemRequest, Material> materials) {
+        for(Map.Entry<ItemRequest, Material> materialEntry : materials.entrySet()){
+            if(materialEntry.getKey().getQuantity() > materialEntry.getValue().getStock()){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

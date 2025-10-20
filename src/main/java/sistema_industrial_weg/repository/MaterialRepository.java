@@ -2,9 +2,11 @@ package sistema_industrial_weg.repository;
 
 import sistema_industrial_weg.dto.material.MaterialGetResponse;
 import sistema_industrial_weg.infra.dao.MaterialDao;
+import sistema_industrial_weg.model.item_request.ItemRequest;
 import sistema_industrial_weg.model.material.Material;
 
 import java.util.List;
+import java.util.Map;
 
 public class MaterialRepository {
 
@@ -28,5 +30,9 @@ public class MaterialRepository {
 
     public List<Material> getAll() {
         return materialDao.getAll();
+    }
+
+    public void updateAll(Map<ItemRequest, Material> materials) {
+        materialDao.updateAll(materials);
     }
 }

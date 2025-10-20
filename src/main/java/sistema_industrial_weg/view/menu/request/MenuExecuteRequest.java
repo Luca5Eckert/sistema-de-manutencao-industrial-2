@@ -1,6 +1,7 @@
 package sistema_industrial_weg.view.menu.request;
 
 import sistema_industrial_weg.dto.request.get.RequestGetResponse;
+import sistema_industrial_weg.infra.beans.MaterialBeans;
 import sistema_industrial_weg.infra.beans.RequestBeans;
 import sistema_industrial_weg.service.request.RequestService;
 import sistema_industrial_weg.view.Printer;
@@ -10,11 +11,11 @@ import sistema_industrial_weg.view.menu.Menus;
 
 import java.util.List;
 
-public class MenuCancelRequest extends Menu {
+public class MenuExecuteRequest extends Menu {
 
     private final RequestService requestService;
 
-    protected MenuCancelRequest(Reader reader, Printer printer, RequestService requestService) {
+    protected MenuExecuteRequest(Reader reader, Printer printer, RequestService requestService) {
         super(reader, printer);
         this.requestService = requestService;
     }
@@ -31,17 +32,17 @@ public class MenuCancelRequest extends Menu {
             return;
         }
 
-        requestService.cancelRequest(request.id());
+        requestService.execute(request.id());
 
-        getPrinter().printText("| | Requisição cancelada com sucesso");
+        getPrinter().printText("| | Requisição executada com sucesso");
 
     }
 
     private RequestGetResponse callMenu(List<RequestGetResponse> requestList) {
 
-        getPrinter().printTitle("Cancelar Requisição");
+        getPrinter().printTitle("Executar Requisição");
 
-        getPrinter().printText(" Digite o número da requisição que deseja cancelar: ( 0 para voltar )");
+        getPrinter().printText(" Digite o número da requisição que deseja executar: ( 0 para voltar )");
 
         getPrinter().printList(requestList);
         var select = getReader().readInteger() - 1;
@@ -58,7 +59,8 @@ public class MenuCancelRequest extends Menu {
     }
 
     public static Menu toInstance(Reader reader, Printer printer) {
-        return new MenuCancelRequest(reader, printer, RequestBeans.toInstanceRequest());
+        return new MenuExecuteRequest(reader, printer, RequestBeans.toInstanceRequest());
     }
+
 
 }
