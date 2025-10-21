@@ -4,6 +4,6 @@ public record MaterialGetResponse(long id, String name, String unit, double stoc
 
     @Override
     public String toString() {
-        return name + "  " + stock + " " + unit;
+        return name + " | " + stock + unit;
     }
 }
