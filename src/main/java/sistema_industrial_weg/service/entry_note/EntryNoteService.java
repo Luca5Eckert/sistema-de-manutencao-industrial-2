@@ -34,6 +34,8 @@ public class EntryNoteService {
         if(request == null) throw new RuntimeException("Requisição não pode ser nula");
 
         if(!providerRepository.existById(request.idProvider())) throw new RuntimeException("| Fornecedor não existe");
+        if(request.materialsId().isEmpty()) throw new RuntimeException("| Preciso conter no minimo um material");
+
         var materials = materialRepository.getMaterials(request.materialsId().stream().map(ItemEntryNoteRequest::idMaterial).toList());
 
         if(!validStockMaterials(materials)) throw new RuntimeException("| Estoque de materials invalidos");
