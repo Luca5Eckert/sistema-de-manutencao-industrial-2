@@ -1,4 +1,4 @@
-package sistema_industrial_weg.exception;
+package sistema_industrial_weg.infra.exception;
 
 public class IllegalInputException extends RuntimeException {
 

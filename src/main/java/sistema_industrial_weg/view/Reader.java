@@ -1,6 +1,6 @@
 package sistema_industrial_weg.view;
 
-import sistema_industrial_weg.exception.IllegalInputException;
+import sistema_industrial_weg.infra.exception.IllegalInputException;
 
 import java.util.Scanner;
 
