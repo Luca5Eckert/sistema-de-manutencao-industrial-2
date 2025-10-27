@@ -5,6 +5,7 @@ import sistema_industrial_weg.infra.connection.ConnectionDatabase;
 import sistema_industrial_weg.model.item_request.ItemRequest;
 import sistema_industrial_weg.model.material.Material;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,22 +64,23 @@ public class MaterialDao {
     }
 
     public List<Material> getMaterials(List<Long> materialsId) {
+        if(materialsId.isEmpty()) return List.of();
+
         List<Material> materials = new ArrayList<>();
 
-        StringBuilder queryBuilder = new StringBuilder("""
+        String query = """
                 SELECT id, nome, unidade, estoque
                 FROM material
-                WHERE id IN (""");
-        queryBuilder.append("?, ".repeat(Math.max(0, materialsId.size() - 1)));
-        queryBuilder.append(" ?");
+                WHERE id
+                IN (""" + "?, ".repeat(Math.max(0, materialsId.size() - 1))
+                + " ? )";
 
-        String query = queryBuilder + " )";
 
         try (Connection connection = ConnectionDatabase.toInstance();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            for (int i = 1; i <= materialsId.size(); i++) {
-                statement.setLong(i, materialsId.get(i-1));
+            for (int i = 0; i < materialsId.size(); i++) {
+                statement.setLong(i+1, materialsId.get(i));
             }
 
             try (ResultSet resultSet = statement.executeQuery()) {
